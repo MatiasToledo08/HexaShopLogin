@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Agregar Producto</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(135deg, #ffcc00, #ff6600, #ff3300);
+      background-size: cover;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      animation: fadeIn 1s ease;
+    }
+
+    .form-container {
+      background-color: rgba(0, 0, 0, 0.85);
+      padding: 40px;
+      border-radius: 15px;
+      box-shadow: 0 15px 30px rgba(0, 0, 0, 0.5);
+      width: 320px;
+      text-align: center;
+      color: #fff;
+      animation: fadeInUp 0.8s ease;
+    }
+
+    h2 {
+      margin-bottom: 20px;
+      font-weight: bold;
+      animation: fadeSlide 1s ease-in-out;
+    }
+
+    input {
+      width: 100%;
+      padding: 12px;
+      margin: 10px 0;
+      border: none;
+      border-radius: 8px;
+      font-size: 14px;
+      transition: all 0.3s ease;
+    }
+
+    input:focus {
+      outline: none;
+      box-shadow: 0 0 8px #2ecc71;
+      transform: scale(1.02);
+    }
+
+    button {
+      width: 100%;
+      padding: 12px;
+      margin-top: 10px;
+      background-color: #2ecc71;
+      border: none;
+      border-radius: 8px;
+      color: #fff;
+      font-weight: bold;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #27ae60;
+      transform: scale(1.03);
+      box-shadow: 0 0 10px #2ecc71;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(40px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes fadeSlide {
+      from { opacity: 0; transform: translateY(-20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+  <div class="form-container">
+    <h2>Agregar Producto</h2>
+    <form id="producto-form">
+      <input type="text" id="nombre" placeholder="Nombre del producto" required />
+      <input type="text" id="descripcion" placeholder="Descripción" required />
+      <input type="number" id="precio" placeholder="Precio" required />
+      <input type="url" id="imagen" placeholder="URL de imagen" required />
+      
+      <select id="categoria" required style="padding: 10px; border-radius: 10px; margin-top: 10px;">
+  <option value="">Seleccionar categoría</option>
+  <option value="Pastas">Pastas</option>
+  <option value="Jugos">Jugos</option>
+  <option value="Dulces">Dulces</option>
+</select>
+      
+<button type="submit">Agregar</button>
+    </form>
+  </div>
+
+  <script>
+    document.getElementById('producto-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const nombre = document.getElementById('nombre').value;
+      const descripcion = document.getElementById('descripcion').value;
+      const precio = document.getElementById('precio').value;
+      const imagen = document.getElementById('imagen').value;
+      const categoria = document.getElementById('categoria').value;
+
+      const res = await fetch('/productos', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ nombre, descripcion, precio, imagen, categoria})
+      });
+
+      const result = await res.json();
+      alert(result.message || 'Producto agregado');
+      window.location.href = "index.html";
+      if (result.success) {
+        document.getElementById('producto-form').reset();
+      }
+    });
+  </script>
+  
+</body>
+</html>

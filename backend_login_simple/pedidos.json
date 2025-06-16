@@ -1,0 +1,134 @@
+[
+  {
+    "usuario": "admin",
+    "productos": [
+      {
+        "nombre": "Espagueti",
+        "precio": "2000"
+      }
+    ],
+    "total": 2000,
+    "fecha": "2025-06-14T22:55:48.470Z",
+    "estado": "Enviado"
+  },
+  {
+    "usuario": "admin",
+    "productos": [
+      {
+        "nombre": "Macarron",
+        "precio": "2500"
+      }
+    ],
+    "total": 2500,
+    "fecha": "2025-06-14T22:56:10.070Z",
+    "estado": "Pendiente"
+  },
+  {
+    "usuario": "admin",
+    "productos": [
+      {
+        "nombre": "Tortellini",
+        "precio": "3000"
+      },
+      {
+        "nombre": "Jugo de Naranja",
+        "precio": "3500"
+      }
+    ],
+    "total": 6500,
+    "fecha": "2025-06-14T22:56:24.742Z",
+    "estado": "En preparación"
+  },
+  {
+    "usuario": "matias",
+    "productos": [
+      {
+        "nombre": "Jugo de Pomelo",
+        "precio": "4000"
+      }
+    ],
+    "total": 4000,
+    "fecha": "2025-06-15T02:33:29.395Z",
+    "estado": "En preparación"
+  },
+  {
+    "usuario": "admin",
+    "items": [
+      {
+        "nombre": "Jugo de Limon",
+        "precio": "4500"
+      }
+    ],
+    "total": 4500,
+    "fecha": "2025-06-15T02:41:28.339Z",
+    "estado": "Enviado"
+  },
+  {
+    "usuario": "Juan",
+    "items": [
+      {
+        "nombre": "Espagueti",
+        "precio": "2000"
+      },
+      {
+        "nombre": "Jugo de Limon",
+        "precio": "4500"
+      }
+    ],
+    "total": 6500,
+    "fecha": "2025-06-16T00:07:32.593Z",
+    "estado": "Enviado"
+  },
+  {
+    "usuario": "admin",
+    "items": [
+      {
+        "nombre": "Churros",
+        "precio": "500"
+      }
+    ],
+    "total": 500,
+    "fecha": "2025-06-16T00:08:38.543Z",
+    "estado": "Entregado"
+  },
+  {
+    "usuario": "Juan",
+    "items": [
+      {
+        "nombre": "Tortellini",
+        "precio": "3000"
+      }
+    ],
+    "total": 3000,
+    "fecha": "2025-06-16T00:09:43.288Z",
+    "estado": "Entregado"
+  },
+  {
+    "usuario": "admin",
+    "items": [
+      {
+        "nombre": "Jugo de Pomelo",
+        "precio": "4000"
+      }
+    ],
+    "total": 4000,
+    "fecha": "2025-06-16T16:43:22.639Z",
+    "estado": "Pendiente"
+  },
+  {
+    "usuario": "admin",
+    "items": [
+      {
+        "nombre": "Espagueti",
+        "precio": "2000"
+      },
+      {
+        "nombre": "Tortellini",
+        "precio": "3000"
+      }
+    ],
+    "total": 5000,
+    "fecha": "2025-06-16T17:28:58.410Z",
+    "estado": "En preparación"
+  }
+]

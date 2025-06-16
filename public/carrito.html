@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Carrito - HexaShop</title>
+  <style>
+    * { box-sizing: border-box; }
+
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(135deg, #ffcc00, #ff6600, #ff3300);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      padding: 40px 20px;
+      color: white;
+      animation: fadeIn 1s ease;
+    }
+
+    h1 {
+      margin-bottom: 30px;
+      animation: fadeSlide 1s ease-in-out;
+      text-shadow: 1px 1px 5px black;
+    }
+
+    #carrito-lista {
+      background-color: rgba(0,0,0,0.8);
+      padding: 20px;
+      border-radius: 15px;
+      max-width: 500px;
+      width: 100%;
+      box-shadow: 0 0 20px rgba(0,0,0,0.5);
+      animation: fadeInUp 0.8s ease;
+    }
+
+    .item {
+      padding: 10px;
+      border-bottom: 1px solid #555;
+      text-align: left;
+    }
+
+    .item:last-child {
+      border-bottom: none;
+    }
+
+    #total {
+      margin-top: 15px;
+      font-weight: bold;
+      font-size: 18px;
+      text-align: center;
+    }
+
+    button {
+      margin-top: 20px;
+      padding: 10px 20px;
+      background-color: #e74c3c;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: bold;
+      transition: background-color 0.3s ease, transform 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #c0392b;
+      transform: scale(1.05);
+    }
+
+    a {
+      color: #fff200;
+      margin-top: 20px;
+      text-decoration: none;
+      font-weight: bold;
+      display: inline-block;
+    }
+
+    @keyframes fadeSlide {
+      from { opacity: 0; transform: translateY(-20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(40px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+.carrito-container {
+  background-color: rgba(0, 0, 0, 0.85);
+  color: #fff;
+  padding: 25px;
+  margin: 40px auto;
+  max-width: 600px;
+  width: 95%;
+  border-radius: 12px;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+  animation: fadeIn 0.8s ease-in-out;
+  text-align: center;
+}
+
+.carrito-container h1 {
+  font-size: 28px;
+  margin-bottom: 20px;
+  animation: slideDown 0.8s ease-in-out;
+}
+
+#carrito-lista {
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+#total {
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.carrito-container button {
+  display: inline-block;
+  margin: 8px 6px;
+  padding: 12px 20px;
+  font-size: 16px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: all 0.3s ease;
+  text-align: center;
+}
+
+.carrito-container button:hover {
+  transform: scale(1.05);
+  opacity: 0.9;
+}
+
+.carrito-container button:nth-of-type(1) {
+  background-color: #e74c3c; /* Vaciar */
+  color: white;
+}
+
+.carrito-container button:nth-of-type(2) {
+  background-color: #2ecc71; /* Confirmar */
+  color: white;
+}
+
+.boton-pagar {
+  background-color: #0077b6;
+  color: white;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slideDown {
+  from { opacity: 0; transform: translateY(-20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Modo móvil */
+@media (max-width: 600px) {
+  .carrito-container {
+    padding: 20px 15px;
+  }
+
+  .carrito-container h1 {
+    font-size: 22px;
+  }
+
+  .carrito-container button {
+    display: block;
+    width: 100%;
+    margin: 8px 0;
+  }
+}
+
+
+
+  </style>
+</head>
+<body>
+  
+  
+  <div class="carrito-container">
+  <h1>🛒 Tu Carrito</h1>
+  <div id="carrito-lista"></div>
+  <div id="total"></div>
+  <button onclick="vaciarCarrito()">Vaciar carrito</button><br>
+  <button onclick="confirmarCompra()">Confirmar compra</button>
+  <button class="boton-pagar" onclick="window.location.href='https:link.mercadopago.com.ar/labuenapasta'">
+  💳 Pagar con Mercado Pago
+  </button>
+  </div>
+
+<!-- gracias.html -->
+  <h2>🎉 ¡Gracias por tu compra!</h2>
+
+  <a href="index.html">Volver a la tienda</a>
+
+  <a href="historial.html">📜 Ver historial</a>
+
+  <script>
+    const lista = document.getElementById("carrito-lista");
+    const totalDiv = document.getElementById("total");
+    const carrito = JSON.parse(localStorage.getItem("carrito")) || [];
+
+    if (carrito.length === 0) {
+      lista.innerHTML = "<p>El carrito está vacío.</p>";
+      totalDiv.textContent = "";
+    } else {
+      let total = 0;
+      carrito.forEach((item, i) => {
+        const div = document.createElement("div");
+        div.className = "item";
+        div.innerHTML = `${i + 1}. ${item.nombre} - $${item.precio}`;
+        lista.appendChild(div);
+        total += Number(item.precio);
+      });
+      totalDiv.textContent = `💰 Total: $${total}`;
+    }
+
+    function vaciarCarrito() {
+      localStorage.removeItem("carrito");
+      location.reload();
+    }
+    function pagarConMercadoPago() {
+  if (carrito.length === 0) {
+    alert("Tu carrito está vacío.");
+    return;
+  }
+
+  fetch("/crear-preferencia", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({ carrito })
+  })
+    .then(res => res.json())
+    .then(data => {
+      if (data.init_point) {
+        window.location.href = data.init_point;
+      } else {
+        alert("Error al obtener enlace de pago.");
+      }
+    })
+    .catch(error => {
+      alert("Error al iniciar pago");
+      console.error(error);
+    });
+}
+  </script>
+
+<script>
+function confirmarCompra() {
+  const carrito = JSON.parse(localStorage.getItem("carrito") || "[]");
+
+  if (!carrito.length) {
+    alert("El carrito está vacío.");
+    return;
+  }
+
+  const total = carrito.reduce((acc, item) => acc + parseFloat(item.precio), 0);
+
+  fetch("/confirmar-pedido", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ items: carrito, total })
+  })
+    .then(res => res.json())
+    .then(data => {
+      if (data.success) {
+        alert("✅ Pedido confirmado.");
+        localStorage.removeItem("carrito");
+        window.location.href = "pedidos.html";
+      } else {
+        alert("❌ " + data.message);
+      }
+    })
+    .catch(err => {
+      console.error("Error al confirmar pedido:", err);
+      alert("❌ No se pudo guardar el pedido.");
+    });
+}
+</script>
+
+
+</body>
+</html>

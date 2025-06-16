@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Historial de Compras</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(135deg, #ffcc00, #ff6600, #ff3300);
+      color: white;
+      padding: 30px;
+      text-align: center;
+    }
+
+    h1 {
+      margin-bottom: 20px;
+    }
+
+    .compra {
+      background-color: rgba(0,0,0,0.85);
+      padding: 20px;
+      margin: 15px auto;
+      border-radius: 12px;
+      max-width: 500px;
+      text-align: left;
+      box-shadow: 0 0 10px rgba(0,0,0,0.3);
+    }
+
+    .compra h3 {
+      margin-top: 0;
+      border-bottom: 1px solid #555;
+      padding-bottom: 5px;
+    }
+
+    a {
+      color: #fff200;
+      display: inline-block;
+      margin-top: 20px;
+      text-decoration: none;
+    }
+  </style>
+</head>
+<body>
+  <h1>🧾 Historial de Compras</h1>
+  <div id="lista-compras"></div>
+  <a href="index.html">⬅️ Volver</a>
+
+  <script>
+    const historial = JSON.parse(localStorage.getItem("historial")) || [];
+    const lista = document.getElementById("lista-compras");
+
+    if (historial.length === 0) {
+      lista.innerHTML = "<p>No hay compras registradas.</p>";
+    } else {
+      historial.forEach((compra, i) => {
+        const div = document.createElement("div");
+        div.className = "compra";
+        div.innerHTML = `
+          <h3>🛍 Compra #${i + 1} - ${compra.fecha}</h3>
+          <ul>
+            ${compra.productos.map(p => `<li>${p.nombre} - $${p.precio}</li>`).join("")}
+          </ul>
+          <strong>Total: $${compra.total}</strong>
+        `;
+        lista.appendChild(div);
+      });
+    }
+  </script>
+</body>
+</html>

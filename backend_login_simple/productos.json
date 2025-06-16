@@ -1,0 +1,98 @@
+[
+  {
+    "id": "prod-1",
+    "nombre": "Espagueti",
+    "descripcion": "El espagueti es un tipo de pasta italiana que se caracteriza por su forma larga y delgada, similar a un cordón o hilo, y generalmente mide entre 25 y 30 centímetros. Se elabora a partir de harina de trigo duro y agua, lo que le confiere una textura firme y una capacidad de cocción que permite lograr el término ",
+    "precio": "2000",
+    "imagen": "https://th.bing.com/th/id/R.9d4a5f764925d2a54727ab90ba3930ff?rik=T6sR9Vd5y06Nvg&pid=ImgRaw&r=0",
+    "categoria": "Pastas"
+  },
+  {
+    "id": "prod-2",
+    "nombre": "Macarron",
+    "descripcion": "El macarrón dulce es un delicado postre francés hecho a base de dos galletitas de merengue, elaboradas con clara de huevo, almendra molida y azúcar, unidas por un relleno cremoso que puede ser de diferentes sabores.",
+    "precio": "2500",
+    "imagen": "https://entrecampeonas.com/wp-content/uploads/2020/02/GettyImages-1083507204.jpg",
+    "categoria": "Pastas"
+  },
+  {
+    "id": "prod-3",
+    "nombre": "Tortellini",
+    "descripcion": "El tortellini es una variedad de pasta típica de Italia, originaria de la región de Emilia-Romaña, especialmente asociada con las ciudades de Bolonia y Módena. Se caracteriza por su forma distintiva de anillo, que se logra al doblar una pequeña porción de masa enrollada y unida por sus extremos, creando así un pequeño \"ojo\" que encierra un delicioso relleno.",
+    "precio": "3000",
+    "imagen": "https://i.pinimg.com/originals/8c/9b/ec/8c9bec6f9a23482e73446ecb47e8b4c7.jpg",
+    "categoria": "Pastas"
+  },
+  {
+    "id": "prod-4",
+    "nombre": "Jugo de Naranja",
+    "descripcion": "El jugo de naranja, o zumo de naranja, es una bebida refrescante y nutritiva que se obtiene al exprimir naranjas (Citrus × sinensis) mediante un exprimidor. Este elixir es muy popular en todo el mundo, especialmente en desayunos, gracias a su sabor dulce y ácido, así como a sus múltiples beneficios para la salud.",
+    "precio": "3500",
+    "imagen": "https://www.metodocoma.com/wp-content/uploads/jugo-de-naranja-naranja-2-scaled.jpg",
+    "categoria": "Jugos"
+  },
+  {
+    "id": "prod-5",
+    "nombre": "Jugo de Pomelo",
+    "descripcion": "El jugo de pomelo, también conocido como zumo de toronja, se elabora exprimiendo los pomelos (Citrus × paradisi) y es rico en vitamina C, con un sabor que varía de dulce a ácido y un ligero regusto amargo.",
+    "precio": "4000",
+    "imagen": "https://th.bing.com/th/id/R.6717ceb5b9e6964cd514f1a6880a5733?rik=C1ywIc%2bpVxXjDw&pid=ImgRaw&r=0&sres=1&sresct=1",
+    "categoria": "Jugos"
+  },
+  {
+    "id": "prod-6",
+    "nombre": "Jugo de Limon",
+    "descripcion": "El jugo o zumo de limón es el líquido obtenido del endocarpio de los limones al ser exprimido (generalmente con un exprimidor de limones). Dicho líquido suele representar un 30 % del peso del fruto. Se suele extraer de forma casera directamente de los limones (a mano o con un exprimidor), aunque los hay también envasados o en forma de extractos (liofilizados y secos). Estos últimos están regulados por Codex Alimentarius internacionales.[2]​ El jugo de un limón rinde aproximadamente 48 g de jugo.",
+    "precio": "4500",
+    "imagen": "https://th.bing.com/th/id/R.0cc04abb893dbf77051d8ff24cea819e?rik=kNrL6x3iNKFp%2fQ&pid=ImgRaw&r=0&sres=1&sresct=1",
+    "categoria": "Jugos"
+  },
+  {
+    "id": "prod-7",
+    "nombre": "Pastafrola",
+    "descripcion": "La pastafrola es una tarta tradicional de la gastronomía de Argentina, Paraguay y Uruguay, cuyo origen se remonta a recetas italianas de pasta. Esta tarta se caracteriza por su masa quebrada (denominada ",
+    "precio": "5000",
+    "imagen": "https://www.cocinerosargentinos.com/content/recipes/original/recipes.15275.jpeg",
+    "categoria": "Dulces"
+  },
+  {
+    "id": "prod-8",
+    "nombre": "Medialunas",
+    "descripcion": "Las medialunas son un clásico de la panadería argentina, que se caracteriza por su forma de media luna y su sabor dulce. Su textura puede variar según el tipo: medialunas de manteca, suaves y glaseadas, o medialunas de grasa, más crujientes y menos dulces.",
+    "precio": "5500",
+    "imagen": "https://www.lanacion.com.ar/resizer/ITp-45tvyS3hkLAF80BgoK8Bt6Q=/1200x800/filters:format(webp):quality(80)/cloudfront-us-east-1.images.arcpublishing.com/lanacionar/M2NJ4M5YCZFHBGYG3YH7VCZTGE.jpg",
+    "categoria": "Dulces"
+  },
+  {
+    "id": "prod-9",
+    "nombre": "Maicenitas",
+    "descripcion": "Las maicenitas son alfajores de maicena, un postre argentino clásico, conocido por su suave masa y relleno de dulce de leche, rebozado con coco rallado.",
+    "precio": "6000",
+    "imagen": "https://elgourmet.s3.amazonaws.com/recetas/cover/alfaj_hgMHx6wseQRprzkq4ItTPGi5BvS1jN.png",
+    "categoria": "Dulces"
+  },
+  {
+    "id": "prod-10",
+    "nombre": "Rosquitos",
+    "descripcion": "Las rosquitas, también conocidas como rosquillas, son masas fritas o horneadas que presentan forma circular con un agujero en el centro. Estos dulces son populares en muchas partes del mundo y suconsumo en Argentina tiene una fuerte raíz en la cultura criolla, especialmente durante festividades. Las rosquitas pueden variar en ingredientes y sabor según la región, con algunas versiones que incluyen anís o vainilla",
+    "precio": "7000",
+    "imagen": "https://media.diariouno.com.ar/p/019696fc61de5871cec3ddf50299d86c/adjuntos/298/imagenes/009/375/0009375840/1200x675/smart/receta-rosquitos-anisjpg.jpg",
+    "categoria": "Dulces"
+  },
+  {
+    "id": "prod-11",
+    "nombre": "Churros",
+    "descripcion": "Churros con dulce de leche",
+    "precio": "500",
+    "imagen": "https://assets.unileversolutions.com/recipes-v2/236991.jpg",
+    "categoria": "Dulces"
+  },
+  {
+    "id": "b0b7099e-85cf-408a-af93-9572689d73a7",
+    "nombre": "Marmolado",
+    "descripcion": "Marmolado casero, bien argentino",
+    "precio": "2000",
+    "imagen": "https://th.bing.com/th/id/OIP.nkaVQHeXsTJdWnQRRkVxcgHaE8?rs=1&pid=ImgDetMain",
+    "categoria": "Dulces"
+  }
+]

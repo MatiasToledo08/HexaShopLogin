@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Usuarios Registrados</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(135deg, #ffcc00, #ff6600, #ff3300);
+      background-size: cover;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      animation: fadeIn 1s ease;
+    }
+
+    h1 {
+      margin-top: 40px;
+      color: white;
+      text-shadow: 1px 1px 5px black;
+      animation: fadeSlide 1s ease-in-out;
+    }
+
+    table {
+      width: 90%;
+      max-width: 800px;
+      margin: 30px auto;
+      border-collapse: collapse;
+      background-color: rgba(0, 0, 0, 0.85);
+      color: white;
+      border-radius: 12px;
+      overflow: hidden;
+      animation: fadeSlide 1s ease-in-out;
+    }
+
+    th, td {
+      padding: 15px;
+      border-bottom: 1px solid #444;
+      text-align: center;
+    }
+
+    th {
+      background-color: #222;
+      font-weight: bold;
+    }
+
+    tr:hover {
+      background-color: rgba(255, 255, 255, 0.05);
+    }
+
+    button {
+      padding: 6px 12px;
+      margin: 2px;
+      background-color: #2ecc71;
+      border: none;
+      border-radius: 6px;
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+      transition: 0.3s ease;
+    }
+
+    button:hover {
+      transform: scale(1.05);
+    }
+
+    .eliminar {
+      background-color: #e74c3c;
+    }
+
+    .cancelar {
+      background-color: #aaa;
+    }
+
+    .volver {
+      margin: 30px;
+      background-color: #333;
+      color: white;
+      padding: 10px 20px;
+      text-decoration: none;
+      border-radius: 8px;
+      font-weight: bold;
+      transition: background-color 0.3s ease;
+    }
+
+    .volver:hover {
+      background-color: #555;
+    }
+
+    @keyframes fadeSlide {
+      from { opacity: 0; transform: translateY(-20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+  </style>
+</head>
+<body>
+  <h1>Usuarios Registrados</h1>
+  <table id="tabla-usuarios">
+    <thead>
+      <tr>
+  <th>Usuario</th>
+  <th>Rol</th>
+  <th>Contraseña</th>
+  <th>Acciones</th>
+</tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+
+  <a class="volver" href="index.html">Volver al inicio</a>
+
+  <script>
+
+const currentUser = sessionStorage.getItem("username");
+console.log("Usuario actual:", currentUser);
+
+  async function cargarUsuarios() {
+    const res = await fetch("/usuarios");
+    const usuarios = await res.json();
+
+    const currentUser = localStorage.getItem("username");
+    const tbody = document.querySelector("#tabla-usuarios tbody");
+    tbody.innerHTML = "";
+
+    usuarios.forEach((u) => {
+      const rol = u.rol || "name";
+      const puedeEditar = currentUser === "admin";
+
+      const acciones = puedeEditar
+        ? `
+          <button onclick="editarUsuario('${u.username}', '${u.password}')">Editar</button>
+          <button class="eliminar" onclick="eliminarUsuario('${u.username}')">Eliminar</button>
+        `
+        : "-";
+
+      const tr = document.createElement("tr");
+      tr.innerHTML = `
+        <td>${u.username}</td>
+        <td>${rol}</td>
+        <td id="pass-${u.username}">${"*".repeat(u.password.length)}</td>
+        <td id="acciones-${u.username}">${acciones}</td>
+      `;
+      tbody.appendChild(tr);
+    });
+  }
+
+    function editarUsuario(username, password) {
+      document.getElementById(`pass-${username}`).innerHTML = `<input type="text" id="edit-pass-${username}" value="${password}" style="padding: 5px; border-radius: 5px; width: 100%;">`;
+
+      document.getElementById(`acciones-${username}`).innerHTML = `
+        <button onclick="guardarCambio('${username}')">Guardar</button>
+        <button class="cancelar" onclick="cargarUsuarios()">Cancelar</button>
+      `;
+    }
+
+    async function guardarCambio(username) {
+      const nuevaPass = document.getElementById(`edit-pass-${username}`).value;
+
+      const res = await fetch("/usuarios/" + username, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ password: nuevaPass })
+      });
+
+      const result = await res.json();
+      alert(result.message);
+      cargarUsuarios();
+    }
+
+    async function eliminarUsuario(username) {
+      if (confirm(`¿Seguro que querés eliminar a "${username}"?`)) {
+        const res = await fetch("/usuarios/" + username, { method: "DELETE" });
+        const result = await res.json();
+        alert(result.message);
+        cargarUsuarios();
+      }
+    }
+
+    cargarUsuarios();
+  </script>
+</body>
+</html>

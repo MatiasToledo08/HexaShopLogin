@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>📊 Estadísticas</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(135deg, #ffcc00, #ff6600);
+      margin: 0;
+      padding: 20px;
+      color: white;
+      text-align: center;
+    }
+
+    h1 {
+      margin-bottom: 30px;
+    }
+
+    .card {
+      background-color: rgba(0,0,0,0.7);
+      border-radius: 10px;
+      padding: 20px;
+      margin: 10px auto;
+      max-width: 400px;
+      font-size: 20px;
+    }
+
+    canvas {
+      margin-top: 30px;
+      background-color: white;
+      border-radius: 10px;
+      padding: 10px;
+    }
+
+    a {
+      display: inline-block;
+      margin-top: 20px;
+      color: #fff;
+      text-decoration: underline;
+    }
+
+  body {
+    font-family: 'Segoe UI', sans-serif;
+    background: linear-gradient(135deg, #ffcc00, #ff6600, #ff3300);
+    margin: 0;
+    padding: 0;
+    text-align: center;
+    color: white;
+    animation: fadeIn 1s ease;
+  }
+
+  h1 {
+    margin-top: 40px;
+    font-size: 32px;
+    animation: fadeSlide 1s ease-in-out;
+    text-shadow: 2px 2px 5px black;
+  }
+
+  .card {
+    background-color: rgba(0, 0, 0, 0.85);
+    margin: 15px auto;
+    padding: 20px;
+    width: 80%;
+    max-width: 400px;
+    border-radius: 12px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+    font-size: 20px;
+    animation: fadeInUp 0.8s ease;
+    transition: transform 0.3s ease;
+  }
+
+  .card:hover {
+    transform: scale(1.03);
+  }
+
+  canvas {
+    margin: 30px auto;
+    display: block;
+    max-width: 90%;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
+    animation: fadeIn 1s ease-in-out;
+  }
+
+  a {
+    display: inline-block;
+    margin-top: 30px;
+    text-decoration: none;
+    padding: 10px 20px;
+    border-radius: 8px;
+    background-color: #333;
+    color: white;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+  }
+
+  a:hover {
+    background-color: #555;
+  }
+
+  @keyframes fadeSlide {
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(40px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+
+  </style>
+</head>
+<body>
+  <h1>📊 Estadísticas del sistema</h1>
+
+  <div class="card" id="usuarios">Usuarios registrados: ...</div>
+  <div class="card" id="productos">Productos disponibles: ...</div>
+  <div class="card" id="pedidos">Pedidos realizados: ...</div>
+  <div class="card" id="ventas">Total vendido: $ ...</div>
+
+  <div style="max-width: 1000px; height: 500px; margin: auto;">
+  <canvas id="grafico"></canvas>
+</div>
+
+  <a href="index.html">🔙 Volver al inicio</a>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+  async function cargarEstadisticas() {
+    const res = await fetch('/estadisticas');
+    const data = await res.json();
+
+    document.getElementById("usuarios").textContent = `Usuarios registrados: ${data.totalUsuarios}`;
+    document.getElementById("productos").textContent = `Productos disponibles: ${data.totalProductos}`;
+    document.getElementById("pedidos").textContent = `Pedidos realizados: ${data.totalPedidos}`;
+    document.getElementById("ventas").textContent = `Total vendido: $ ${data.totalVentas.toFixed(2)}`;
+
+    const ctx = document.getElementById('grafico').getContext('2d');
+    const colores = data.ventasPorUsuario.map((_, i) => `hsl(${i * 60 % 360}, 70%, 60%)`);
+
+    new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: data.ventasPorUsuario.map(v => v.usuario),
+        datasets: [{
+          label: '💰 Total vendido por usuario',
+          data: data.ventasPorUsuario.map(v => v.total),
+          backgroundColor: colores,
+          borderRadius: 8
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        scales: {
+          y: {
+            beginAtZero: true,
+            ticks: {
+              callback: value => `$${value.toLocaleString()}`
+            }
+          }
+        },
+        plugins: {
+          legend: {
+            labels: {
+              font: { size: 14 },
+              color: '#333'
+            }
+          },
+          tooltip: {
+            backgroundColor: "#222",
+            titleColor: "#fff",
+            bodyColor: "#fff",
+            callbacks: {
+              label: ctx => `Total: $${ctx.parsed.y.toLocaleString()}`
+            }
+          }
+        },
+        animation: {
+          duration: 1500,
+          easing: "easeOutBounce"
+        }
+      }
+    });
+  }
+
+  cargarEstadisticas();
+</script>
+
+</body>
+</html>

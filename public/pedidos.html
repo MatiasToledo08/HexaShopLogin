@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Pedidos Confirmados</title>
+  <link rel="stylesheet" href="estilos.css" />
+  <style>
+    body {
+      background: linear-gradient(to right, #ff9a9e, #fad0c4);
+      font-family: 'Segoe UI', sans-serif;
+      text-align: center;
+      padding: 2rem;
+    }
+
+    h1 {
+      font-size: 2rem;
+      margin-bottom: 1rem;
+      color: #333;
+    }
+
+    .pedido-card {
+      background: #fff5f5;
+      border-radius: 10px;
+      padding: 1rem;
+      margin: 1rem auto;
+      max-width: 400px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      text-align: left;
+      transition: transform 0.3s ease;
+    }
+
+    .pedido-card:hover {
+      transform: scale(1.02);
+    }
+
+    .pedido-card h3 {
+      margin: 0 0 0.5rem;
+      color: #e65100;
+    }
+
+    .pedido-card p,
+    .pedido-card ul,
+    .pedido-card strong {
+      margin: 0.25rem 0;
+    }
+
+    .pedido-card ul {
+      padding-left: 1.2rem;
+    }
+
+    .volver-btn {
+      margin-top: 2rem;
+      padding: 0.5rem 1.2rem;
+      background-color: #444;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    .volver-btn:hover {
+      background-color: #222;
+    }
+
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.7);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  animation: fadeIn 0.4s ease-in-out;
+}
+
+.modal-contenido {
+  background: white;
+  padding: 20px 30px;
+  border-radius: 10px;
+  max-width: 400px;
+  width: 90%;
+  box-shadow: 0 5px 20px rgba(0,0,0,0.5);
+  animation: slideUp 0.4s ease;
+  color: black;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+.btn-cerrar {
+  background-color: #e74c3c;
+  color: white;
+  border: none;
+  margin-top: 10px;
+  padding: 8px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.btn-cerrar:hover {
+  background-color: #c0392b;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from { transform: translateY(30px); opacity: 0; }
+  to   { transform: translateY(0); opacity: 1; }
+}
+.filtros-pedidos {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.filtros-pedidos input {
+  padding: 8px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+
+.boton-limpiar {
+  margin-top: 10px;
+  padding: 8px 16px;
+  background-color: #e74c3c;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+
+.boton-limpiar:hover {
+  background-color: #c0392b;
+  transform: scale(1.05);
+}
+
+select {
+  padding: 5px;
+  border-radius: 5px;
+  font-weight: bold;
+}
+
+select option[value="Pendiente"] {
+  color: orange;
+}
+select option[value="En preparación"] {
+  color: blue;
+}
+select option[value="Enviado"] {
+  color: purple;
+}
+select option[value="Entregado"] {
+  color: green;
+}
+.estado-select {
+  padding: 8px;
+  border-radius: 6px;
+  border: 2px solid #ccc;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+
+.estado-select:hover {
+  transform: scale(1.02);
+}
+
+.estado-pendiente {
+  background-color: #fff3cd;
+  color: #856404;
+}
+
+.estado-en-preparación {
+  background-color: #d1ecf1;
+  color: #0c5460;
+}
+
+.estado-enviado {
+  background-color: #cce5ff;
+  color: #004085;
+}
+
+.estado-entregado {
+  background-color: #d4edda;
+  color: #155724;
+}
+
+.estado-select {
+  padding: 6px;
+  border-radius: 6px;
+  font-weight: bold;
+  border: none;
+  transition: background-color 0.3s, color 0.3s;
+  color: white;
+}
+
+/* Colores según el estado */
+.estado-pendiente {
+  background-color: #e74c3c;
+}
+
+.estado-en-preparacion {
+  background-color: #f39c12;
+}
+
+.estado-enviado {
+  background-color: #3498db;
+}
+
+.estado-entregado {
+  background-color: #2ecc71;
+}
+
+
+  </style>
+</head>
+<body>
+  <h1>📦 Pedidos Confirmados</h1>
+
+<div class="filtros-pedidos">
+  <input type="text" id="filtro-usuario" placeholder="🔍 Buscar por usuario">
+  <input type="date" id="filtro-fecha">
+  <input type="text" id="filtro-producto" placeholder="🔍 Buscar por producto">
+</div>
+<button id="limpiar-filtros" class="boton-limpiar">🧹 Limpiar búsqueda</button>
+
+<div style="text-align: center; margin-top: 20px;">
+  <label for="filtro-estado"><strong>📋 Filtrar por estado:</strong></label>
+  <select id="filtro-estado" onchange="cargarPedidos()">
+    <option value="">Todos</option>
+    <option value="Pendiente">Pendiente</option>
+    <option value="En preparación">En preparación</option>
+    <option value="Enviado">Enviado</option>
+    <option value="Entregado">Entregado</option>
+  </select>
+</div>
+
+
+  <div id="contenedor-pedidos"></div>
+
+  <button onclick="location.href='index.html'" class="volver-btn">🔙 Volver al inicio</button>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+  <script>
+async function cargarPedidos() {
+  try {
+    const res = await fetch('/pedidos');
+    const pedidos = await res.json();
+    window.pedidosGuardados = pedidos; // Guardamos todos
+
+    aplicarFiltros(); // Llamamos para mostrar inicialmente
+  } catch (error) {
+    console.error("Error al cargar pedidos:", error);
+    document.getElementById("contenedor-pedidos").innerHTML = "<p>Error al cargar pedidos.</p>";
+  }
+}
+
+function aplicarFiltros() {
+  const usuario = document.getElementById("filtro-usuario").value.toLowerCase();
+  const fecha = document.getElementById("filtro-fecha").value;
+  const producto = document.getElementById("filtro-producto").value.toLowerCase();
+  const estado = document.getElementById("filtro-estado").value;
+
+  const contenedor = document.getElementById("contenedor-pedidos");
+  contenedor.innerHTML = "";
+
+  const filtrados = window.pedidosGuardados.filter(pedido => {
+    const coincideUsuario = pedido.usuario.toLowerCase().includes(usuario);
+    const coincideFecha = !fecha || new Date(pedido.fecha).toISOString().split('T')[0] === fecha;
+    const coincideProducto = (pedido.items || pedido.productos || []).some(item =>
+      item.nombre.toLowerCase().includes(producto)
+    );
+    const coincideEstado = !estado || (pedido.estado || "Pendiente") === estado;
+
+    return coincideUsuario && coincideFecha && coincideProducto && coincideEstado;
+  });
+
+  if (!filtrados.length) {
+    contenedor.innerHTML = "<p>No se encontraron pedidos con esos filtros.</p>";
+    return;
+  }
+
+  filtrados.forEach((pedido, index) => {
+    const div = document.createElement("div");
+    div.className = "pedido-card";
+    div.innerHTML = `
+      <h3>🧾 Pedido de: ${pedido.usuario}</h3>
+      <p>🕓 Fecha: ${new Date(pedido.fecha).toLocaleString()}</p>
+      <label>📦 Estado:
+        <select
+          id="estado-${index}"
+          class="estado-select estado-${(pedido.estado || 'Pendiente').toLowerCase().replace(/\s/g, '-')}"
+          onchange="cambiarEstado(${index}, this.value)">
+          <option value="Pendiente" ${pedido.estado === "Pendiente" ? "selected" : ""}>🕓 Pendiente</option>
+          <option value="En preparación" ${pedido.estado === "En preparación" ? "selected" : ""}>👨‍🍳 En preparación</option>
+          <option value="Enviado" ${pedido.estado === "Enviado" ? "selected" : ""}>🚚 Enviado</option>
+          <option value="Entregado" ${pedido.estado === "Entregado" ? "selected" : ""}>📬 Entregado</option>
+        </select>
+        actualizarEstiloEstado(index, pedido.estado || "Pendiente");
+      </label>
+      <ul>
+        ${(pedido.items || pedido.productos || []).map(i => `<li>${i.nombre} - $${i.precio}</li>`).join("")}
+      </ul>
+      <strong>💵 Total: $${pedido.total}</strong><br><br>
+      <button onclick="descargarPDF(${index})">📄 Descargar PDF</button>
+    `;
+
+    contenedor.appendChild(div);
+  });
+}
+
+document.getElementById("limpiar-filtros").addEventListener("click", () => {
+  document.getElementById("filtro-usuario").value = "";
+  document.getElementById("filtro-fecha").value = "";
+  document.getElementById("filtro-producto").value = "";
+  document.getElementById("filtro-estado").value = "";
+  aplicarFiltros();
+});
+
+document.getElementById("filtro-usuario").addEventListener("input", aplicarFiltros);
+document.getElementById("filtro-fecha").addEventListener("change", aplicarFiltros);
+document.getElementById("filtro-producto").addEventListener("input", aplicarFiltros);
+
+document.getElementById("limpiar-filtros").addEventListener("click", () => {
+  document.getElementById("filtro-usuario").value = "";
+  document.getElementById("filtro-fecha").value = "";
+  document.getElementById("filtro-producto").value = "";
+  aplicarFiltros();
+});
+
+
+// 🎯 PDF con diseño mejorado
+function descargarPDF(index) {
+  const pedido = window.pedidosGuardados[index];
+  const { jsPDF } = window.jspdf;
+  const doc = new jsPDF();
+
+  // Título
+  doc.setFont("helvetica", "bold");
+  doc.setFontSize(18);
+  doc.setTextColor(255, 87, 34);
+  doc.text("La Buena Pasta", 40, 25);
+
+  // Info de pedido
+  doc.setFont("helvetica", "normal");
+  doc.setFontSize(12);
+  doc.setTextColor(0, 0, 0);
+  doc.text(`Pedido de: ${pedido.usuario}`, 10, 45);
+  doc.text(`Fecha: ${new Date(pedido.fecha).toLocaleString()}`, 10, 53);
+
+  // Línea
+  doc.setDrawColor(200);
+  doc.line(10, 58, 200, 58);
+
+  // Productos
+  let y = 68;
+  doc.text("Productos:", 10, y);
+  y += 10;
+
+  (pedido.items || pedido.productos || []).forEach(item => {
+    doc.text(`• ${item.nombre} - $${item.precio}`, 15, y);
+    y += 8;
+  });
+
+  // Total
+  y += 10;
+  doc.setTextColor(0, 128, 0);
+  doc.setFontSize(14);
+  doc.text(`Total: $${pedido.total}`, 10, y);
+
+  doc.save(`pedido-${pedido.usuario}.pdf`);
+}
+
+cargarPedidos();
+</script>
+
+<script>
+function cambiarEstado(index, nuevoEstado) {
+     // Actualizar visualmente el select
+  const select = document.getElementById(`estado-${index}`);
+  select.className = `estado-select estado-${nuevoEstado.toLowerCase().replace(/\s/g, '-')}`;
+  fetch(`/pedidos/${index}/estado`, {
+    method: "PUT",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ nuevoEstado })
+  })
+  .then(res => res.json())
+  .then(data => {
+    // ✅ Mostrar animación popup
+    const alerta = document.createElement("div");
+    alerta.textContent = "✅ Estado actualizado";
+    alerta.style.position = "fixed";
+    alerta.style.top = "20px";
+    alerta.style.right = "20px";
+    alerta.style.backgroundColor = "#4caf50";
+    alerta.style.color = "white";
+    alerta.style.padding = "12px 20px";
+    alerta.style.borderRadius = "10px";
+    alerta.style.fontSize = "16px";
+    alerta.style.boxShadow = "0 0 10px rgba(0,0,0,0.3)";
+    alerta.style.zIndex = "1000";
+    alerta.style.opacity = "0";
+    alerta.style.transition = "opacity 0.5s ease";
+
+    document.body.appendChild(alerta);
+    setTimeout(() => alerta.style.opacity = "1", 10);
+    setTimeout(() => {
+      alerta.style.opacity = "0";
+      setTimeout(() => alerta.remove(), 500);
+    }, 2500);
+  })
+  .catch(err => {
+    alert("❌ Error al actualizar estado");
+    console.error(err);
+  });
+}
+</script>
+
+<script>
+  function actualizarEstiloEstado(index, estado) {
+  const select = document.getElementById(`estado-${index}`);
+  if (!select) return;
+
+  // Quitar cualquier clase anterior
+  select.className = "estado-select";
+
+  // Agregar la clase correspondiente al estado
+  const clase = "estado-" + estado.toLowerCase().replace(/\s/g, "-");
+  select.classList.add(clase);
+}
+
+</script>
+
+
+<!-- Modal -->
+<div id="modal" class="modal">
+  <div id="modal-contenido" class="modal-contenido"></div>
+</div>
+
+
+</body>
+</html>
+

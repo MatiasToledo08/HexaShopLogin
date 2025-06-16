@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Registrarse</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(135deg, #ffcc00, #ff6600, #ff3300);
+      background-size: cover;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Segoe UI', sans-serif;
+    }
+
+    .container {
+      background-color: rgba(0, 0, 0, 0.85);
+      padding: 40px;
+      border-radius: 15px;
+      box-shadow: 0 15px 30px rgba(0, 0, 0, 0.5);
+      width: 320px;
+      text-align: center;
+      color: #fff;
+      animation: fadeInUp 0.8s ease;
+    }
+
+    .container h2 {
+      margin-bottom: 20px;
+      font-weight: bold;
+      animation: fadeSlide 1s ease-in-out;
+    }
+
+    input {
+      width: 100%;
+      padding: 12px;
+      margin: 10px 0;
+      border: none;
+      border-radius: 8px;
+      font-size: 14px;
+      transition: all 0.3s ease;
+    }
+
+    input:focus {
+      outline: none;
+      box-shadow: 0 0 8px #ff6600;
+      transform: scale(1.02);
+    }
+
+    button {
+      width: 100%;
+      padding: 12px;
+      margin-top: 10px;
+      background-color: #ff4c00;
+      border: none;
+      border-radius: 8px;
+      color: #fff;
+      font-weight: bold;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #e84300;
+      transform: scale(1.03);
+      box-shadow: 0 0 10px #ff6600;
+    }
+
+    #register-message {
+      margin-top: 15px;
+      background-color: #e74c3c;
+      padding: 10px;
+      border-radius: 8px;
+      display: none;
+      font-size: 14px;
+    }
+
+    a {
+      color: white;
+      text-decoration: none;
+    }
+
+    a:hover {
+      color: #fff200;
+      text-decoration: underline;
+    }
+
+    @keyframes fadeSlide {
+      from { opacity: 0; transform: translateY(-20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(40px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .logo-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px 0;
+}
+
+.logo-animado {
+  width: 150px;
+  height: auto;
+  animation: aparecerLogo 1.2s ease-out;
+  filter: drop-shadow(2px 2px 4px rgba(0,0,0,0.3));
+  transition: transform 0.3s ease-in-out;
+}
+
+.logo-animado:hover {
+  transform: scale(1.05) rotate(2deg);
+}
+
+@keyframes aparecerLogo {
+  from {
+    opacity: 0;
+    transform: scale(0.5) rotate(-10deg);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) rotate(0deg);
+  }
+}
+
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="logo-container">
+  <img src="assets/images/la-buena-pasta-logo.png" alt="Logo La Buena Pasta" class="logo-animado">
+</div>
+    <h2>Registrarse</h2>
+    <form id="register-form">
+      <input type="text" id="username" placeholder="Nombre de usuario" required>
+      <input type="password" id="password" placeholder="Contraseña" required>
+      <button type="submit">Crear cuenta</button>
+      <p style="margin-top: 15px; font-size: 14px;">
+        ¿Ya tenés cuenta?
+        <a href="login.html" style="color: #ff9900;">Iniciar sesión</a>
+      </p>
+    </form>
+    <div id="register-message"></div>
+  </div>
+
+  <script>
+    document.getElementById('register-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const username = document.getElementById('username').value;
+      const password = document.getElementById('password').value;
+      const message = document.getElementById('register-message');
+
+      const response = await fetch('/register', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ username, password })
+      });
+
+      const result = await response.json();
+      message.textContent = result.message;
+      message.style.display = 'block';
+      message.style.backgroundColor = result.success ? '#2ecc71' : '#e74c3c';
+
+      if (result.success) {
+        setTimeout(() => window.location.href = 'login.html', 2000);
+      } else {
+        setTimeout(() => message.style.display = 'none', 3000);
+      }
+    });
+  </script>
+</body>
+</html>

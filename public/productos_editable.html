@@ -1,0 +1,181 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Gestión de Productos</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(135deg, #ffcc00, #ff6600, #ff3300);
+      margin: 0;
+      padding: 20px;
+      color: #fff;
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 30px;
+      text-shadow: 1px 1px 5px #000;
+    }
+
+    .productos {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 20px;
+    }
+
+    .producto {
+      background: rgba(0, 0, 0, 0.85);
+      border-radius: 12px;
+      width: 280px;
+      padding: 15px;
+      box-shadow: 0 0 10px #000;
+      transition: transform 0.3s;
+    }
+
+    .producto:hover {
+      transform: scale(1.03);
+    }
+
+    .producto img {
+      width: 100%;
+      height: 160px;
+      object-fit: cover;
+      border-radius: 8px;
+    }
+
+    .producto h3, .producto p, .precio {
+      margin: 10px 0;
+    }
+
+    .precio {
+      color: #2ecc71;
+      font-weight: bold;
+    }
+
+    button {
+      margin: 5px 4px;
+      padding: 6px 12px;
+      border: none;
+      border-radius: 6px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .editar {
+      background-color: #3498db;
+      color: white;
+    }
+
+    .eliminar {
+      background-color: #e74c3c;
+      color: white;
+    }
+
+    .guardar {
+      background-color: #2ecc71;
+      color: white;
+    }
+
+    .cancelar {
+      background-color: #aaa;
+      color: black;
+    }
+
+    input, textarea {
+      width: 100%;
+      margin: 6px 0;
+      padding: 6px;
+      border-radius: 6px;
+      border: none;
+    }
+  </style>
+</head>
+<body>
+  <h1>Gestión de Productos</h1>
+  <div class="productos" id="contenedor-productos"></div>
+
+  <script>
+    let isAdmin = false;
+
+    async function verificarRol() {
+      const res = await fetch("/usuario-actual");
+      const data = await res.json();
+      isAdmin = data.loggedin && data.rol === "admin";
+    }
+
+    async function cargarProductos() {
+      await verificarRol();
+
+      const res = await fetch("/productos-listado");
+      const productos = await res.json();
+      const contenedor = document.getElementById("contenedor-productos");
+      contenedor.innerHTML = "";
+
+      productos.forEach((p, i) => {
+        const div = document.createElement("div");
+        div.className = "producto";
+        div.innerHTML = `
+          ${p.imagen ? `<img src="${p.imagen}" alt="Imagen">` : ""}
+          <div id="vista-${i}">
+            <h3>${p.nombre}</h3>
+            <p>${p.descripcion}</p>
+            <div class="precio">$ ${p.precio}</div>
+            ${isAdmin ? `
+              <button class="editar" onclick="editarProducto(${i})">Editar</button>
+              <button class="eliminar" onclick="eliminarProducto(${i})">Eliminar</button>
+            ` : ""}
+          </div>
+        `;
+        contenedor.appendChild(div);
+      });
+    }
+
+    async function editarProducto(i) {
+      const res = await fetch("/productos-listado");
+      const productos = await res.json();
+      const p = productos[i];
+      const div = document.getElementById("vista-" + i);
+      div.innerHTML = `
+        <input id="edit-nombre-${i}" value="${p.nombre}" />
+        <textarea id="edit-descripcion-${i}">${p.descripcion}</textarea>
+        <input type="number" id="edit-precio-${i}" value="${p.precio}" />
+        <input id="edit-imagen-${i}" value="${p.imagen}" />
+        <button class="guardar" onclick="guardarProducto(${i})">Guardar</button>
+        <button class="cancelar" onclick="cargarProductos()">Cancelar</button>
+      `;
+    }
+
+    async function guardarProducto(i) {
+      const nombre = document.getElementById("edit-nombre-" + i).value;
+      const descripcion = document.getElementById("edit-descripcion-" + i).value;
+      const precio = parseFloat(document.getElementById("edit-precio-" + i).value);
+      const imagen = document.getElementById("edit-imagen-" + i).value;
+
+      const res = await fetch("/productos/" + i, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ nombre, descripcion, precio, imagen })
+      });
+
+      const data = await res.json();
+      alert(data.message);
+      cargarProductos();
+    }
+
+    async function eliminarProducto(i) {
+      if (!confirm("¿Seguro que querés eliminar este producto?")) return;
+
+      const res = await fetch("/productos/" + i, { method: "DELETE" });
+      const data = await res.json();
+      alert(data.message);
+      cargarProductos();
+    }
+
+    cargarProductos();
+  </script>
+</body>
+</html>

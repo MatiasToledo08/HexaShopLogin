@@ -1,0 +1,38 @@
+[
+  {
+    "nombre": "Matias",
+    "email": "matiastoledo079@gmail.com",
+    "mensaje": "Hola",
+    "fecha": "2025-06-09T22:30:03.195Z"
+  },
+  {
+    "nombre": "Juan",
+    "email": "juangaucho089@gmil.com",
+    "mensaje": "hacen pedidos personalizados?",
+    "fecha": "2025-06-09T23:19:57.246Z"
+  },
+  {
+    "nombre": "Ezequiel",
+    "email": "ezequieltello09@gmail.com",
+    "mensaje": "Excelente atencion",
+    "fecha": "2025-06-09T23:41:03.143Z"
+  },
+  {
+    "nombre": "Ignacio",
+    "email": "ignacioperez@gmail.com",
+    "mensaje": "Son cracks",
+    "fecha": "2025-06-09T23:42:07.488Z"
+  },
+  {
+    "nombre": "Marcos",
+    "email": "marcosquintana@gmail.com",
+    "mensaje": "Muy ricos los rosquitos",
+    "fecha": "2025-06-09T23:44:15.640Z"
+  },
+  {
+    "nombre": "Carlincho",
+    "email": "carlincho@gmail.com",
+    "mensaje": "Epetacula",
+    "fecha": "2025-06-16T19:39:36.953Z"
+  }
+]
