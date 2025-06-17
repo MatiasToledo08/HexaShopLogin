@@ -16,11 +16,10 @@
     "categoria": "Pastas"
   },
   {
-    "id": "prod-3",
     "nombre": "Tortellini",
-    "descripcion": "El tortellini es una variedad de pasta típica de Italia, originaria de la región de Emilia-Romaña, especialmente asociada con las ciudades de Bolonia y Módena. Se caracteriza por su forma distintiva de anillo, que se logra al doblar una pequeña porción de masa enrollada y unida por sus extremos, creando así un pequeño \"ojo\" que encierra un delicioso relleno.",
+    "descripcion": "El tortellini es una variedad de pasta típica de Italia, originaria de la región de Emilia-Romaña, especialmente asociada con las ciudades de Bolonia y Módena. Se caracteriza por su forma distintiva de anillo, que se logra al doblar una pequeña porción de masa enrollada y unida por sus extremos, creando así un pequeño ",
     "precio": "3000",
-    "imagen": "https://i.pinimg.com/originals/8c/9b/ec/8c9bec6f9a23482e73446ecb47e8b4c7.jpg",
+    "imagen": "https://i0.wp.com/www.mostlybalanced.com/wp-content/uploads/2017/05/Tortellini-pasta-with-tomatoes-wood.jpg?fit=2446,2446&ssl=1",
     "categoria": "Pastas"
   },
   {

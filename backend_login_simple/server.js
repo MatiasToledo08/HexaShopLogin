@@ -287,7 +287,7 @@ const OPINIONES_FILE = path.join(__dirname, 'opiniones.json');
 app.post('/opiniones', (req, res) => {
   const { nombre, opinion } = req.body;
 
-  if (!nombre || !mensaje) {
+  if (!nombre || !opinion) {
     return res.status(400).json({ success: false, message: 'Faltan datos' });
   }
 

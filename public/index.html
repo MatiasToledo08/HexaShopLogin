@@ -1408,7 +1408,7 @@ function cancelarEdicion(index) {
 
 <script>
   // Cerrar sesión
-  document.getElementById("logout-btn").addEventListener("click", () => {
+  const logoutBtn = document.getElementById("logout-btn"); if (logoutBtn) logoutBtn.addEventListener("click", () => {
     localStorage.removeItem("token");
     sessionStorage.removeItem("token");
     window.location.href = "login.html";
@@ -1484,7 +1484,7 @@ function iniciarSesion(username = "usuario", rol = "user") {
 <script>
   const rol = localStorage.getItem("rol");
   if (rol === "admin") {
-    document.getElementById("admin-boton").style.display = "block";
+    const adminBoton = document.getElementById("admin-boton"); if (adminBoton) adminBoton.style.display = "block";
   }
 </script>
 
@@ -1603,7 +1603,7 @@ document.getElementById("form-contacto").addEventListener("submit", async functi
 
 <script>
   if (localStorage.getItem("rol") === "admin") {
-    document.getElementById("boton-ver-mensajes").style.display = "inline-block";
+    const botonVerMensajes = document.getElementById("boton-ver-mensajes"); if (botonVerMensajes) botonVerMensajes.style.display = "inline-block";
   }
 </script>
 
@@ -1682,9 +1682,9 @@ document.getElementById("form-contacto").addEventListener("submit", async functi
 <script>
   async function enviarOpinion() {
     const nombre = document.getElementById("nombre-opinion").value;
-    const mensaje = document.getElementById("mensaje-opinion").value;
+    const opinion = document.getElementById("mensaje-opinion").value;
 
-    if (!nombre || !mensaje) {
+    if (!nombre || !opinion) {
       alert("Por favor, completá ambos campos.");
       return;
     }
@@ -1692,7 +1692,7 @@ document.getElementById("form-contacto").addEventListener("submit", async functi
     const res = await fetch("/opiniones", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ nombre, mensaje })
+      body: JSON.stringify({ nombre, opinion })
     });
 
     const result = await res.json();
@@ -1711,8 +1711,8 @@ document.getElementById("form-contacto").addEventListener("submit", async functi
         const div = document.createElement("div");
         div.className = "opinion";
         div.innerHTML = `
-          <p class="texto-opinion">“${op.mensaje}”</p>
-          <p class="autor-opinion">– <strong>${op.nombre}</strong></p>
+          <p class="texto-opinion">“${op.nombre}”</p>
+          <p class="autor-opinion">– <strong>${op.opinion}</strong></p>
           <p class="fecha-opinion">🗓️ ${op.fecha || "Sin fecha"}</p>
         `;
         contenedor.appendChild(div);
