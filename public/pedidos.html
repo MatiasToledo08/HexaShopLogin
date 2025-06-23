@@ -308,7 +308,6 @@ function aplicarFiltros() {
           <option value="Enviado" ${pedido.estado === "Enviado" ? "selected" : ""}>🚚 Enviado</option>
           <option value="Entregado" ${pedido.estado === "Entregado" ? "selected" : ""}>📬 Entregado</option>
         </select>
-        actualizarEstiloEstado(index, pedido.estado || "Pendiente");
       </label>
       <ul>
         ${(pedido.items || pedido.productos || []).map(i => `<li>${i.nombre} - $${i.precio}</li>`).join("")}

@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Perfil de Usuario</title>
+  
+  <style>
+    body {
+      background: linear-gradient(135deg, #ffd4b1, #fca);
+      font-family: 'Segoe UI', sans-serif;
+      text-align: center;
+      margin: 0;
+    }
+
+    h1 {
+      margin-top: 40px;
+      color: #2d2d2d;
+      animation: fadeInDown 1s ease-in-out;
+    }
+
+    form {
+      max-width: 500px;
+      margin: 30px auto;
+      background: #fff8f4;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.15);
+      animation: fadeInUp 1s ease-in-out;
+    }
+
+    label {
+      display: block;
+      margin: 15px 0 5px;
+      text-align: left;
+      color: #333;
+    }
+
+    input {
+      width: 100%;
+      padding: 10px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      box-sizing: border-box;
+    }
+
+    button {
+      margin-top: 20px;
+      margin-right: 10px;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 8px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: transform 0.2s ease;
+    }
+
+    button:hover {
+      transform: scale(1.03);
+    }
+
+    .guardar {
+      background-color: #6a1b9a;
+      color: white;
+    }
+
+    .eliminar {
+      background-color: #ef5350;
+      color: white;
+    }
+
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes fadeInDown {
+      from { opacity: 0; transform: translateY(-30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .volver {
+      margin: 30px;
+      background-color: #333;
+      color: white;
+      padding: 10px 20px;
+      text-decoration: none;
+      border-radius: 8px;
+      font-weight: bold;
+      transition: background-color 0.3s ease;
+    }
+
+    .volver:hover {
+      background-color: #555;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>👤 Perfil de Usuario</h1>
+
+  <form id="form-perfil">
+    <label>Usuario:
+      <input type="text" id="username" disabled>
+    </label>
+    <label>Nombre completo:
+      <input type="text" id="nombre" required>
+    </label>
+    <label>Email:
+      <input type="email" id="email" required>
+    </label>
+    <label>Dirección:
+      <input type="text" id="direccion">
+    </label>
+    <label>Nueva contraseña:
+      <input type="password" id="password">
+    </label>
+    <button type="submit" class="guardar">💾 Guardar cambios</button>
+    <button type="button" class="eliminar" onclick="eliminarCuenta()">🗑️ Eliminar cuenta</button>
+  </form>
+
+  <a class="volver" href="index.html">Volver al inicio</a>
+
+  <script>
+    const usuarioActual = localStorage.getItem("username");
+
+    async function cargarPerfil() {
+      try {
+        const res = await fetch("/usuarios");
+        const usuarios = await res.json();
+        const usuario = usuarios.find(u => u.username === usuarioActual);
+        if (!usuario) return;
+
+        document.getElementById("username").value = usuario.username;
+        document.getElementById("nombre").value = usuario.nombre || "";
+        document.getElementById("email").value = usuario.email || "";
+        document.getElementById("direccion").value = usuario.direccion || "";
+      } catch (error) {
+        alert("Error al cargar perfil.");
+      }
+    }
+
+    document.getElementById("form-perfil").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const datos = {
+        password: document.getElementById("password").value,
+        nombre: document.getElementById("nombre").value,
+        email: document.getElementById("email").value,
+        direccion: document.getElementById("direccion").value
+      };
+
+      const res = await fetch("/usuarios/" + usuarioActual, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(datos)
+      });
+
+      const result = await res.json();
+      alert(result.message);
+      document.getElementById("password").value = "";
+      cargarPerfil(); // Recargar datos actualizados
+    });
+
+    async function eliminarCuenta() {
+      if (!confirm("¿Seguro que querés eliminar tu cuenta?")) return;
+
+      const res = await fetch("/usuarios/" + usuarioActual, { method: "DELETE" });
+      const result = await res.json();
+      alert(result.message);
+      if (result.success) {
+        localStorage.clear();
+        window.location.href = "login.html";
+      }
+    }
+
+    cargarPerfil();
+  </script>
+</body>
+</html>
+

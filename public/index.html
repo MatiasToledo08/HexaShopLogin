@@ -1059,6 +1059,81 @@ form#form-contacto textarea:focus {
   transform: scale(1.05);
   box-shadow: 0 0 10px #8e44ad88;
 }
+.formulario-valoracion {
+  background-color: #fff3e0;
+  padding: 15px;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  margin-top: 10px;
+  animation: fadeIn 0.5s ease-in;
+  max-width: 400px;
+  margin-inline: auto;
+  transition: transform 0.3s ease;
+}
+
+.formulario-valoracion:hover {
+  transform: scale(1.02);
+}
+
+.formulario-valoracion label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: bold;
+  color: #e65100;
+}
+
+.formulario-valoracion input[type="number"],
+.formulario-valoracion textarea {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  margin-bottom: 10px;
+  font-size: 14px;
+  transition: border 0.3s;
+}
+
+.formulario-valoracion input[type="number"]:focus,
+.formulario-valoracion textarea:focus {
+  border-color: #ff9800;
+  outline: none;
+}
+
+.formulario-valoracion button {
+  background-color: #ff9800;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.formulario-valoracion button:hover {
+  background-color: #e65100;
+}
+
+.promedio-valoracion {
+  text-align: center;
+  font-weight: bold;
+  color: #ff7300;
+  margin-top: 10px;
+  font-size: 16px;
+  animation: aparecer 0.5s ease;
+}
+
+@keyframes fadeIn {
+  from {opacity: 0; transform: translateY(10px);}
+  to {opacity: 1; transform: translateY(0);}
+}
+
+@keyframes aparecer {
+  0% {opacity: 0;}
+  100% {opacity: 1;}
+}
+.formulario-valoracion.oculto {
+  display: none;
+}
 
 
   </style>
@@ -1166,10 +1241,13 @@ form#form-contacto textarea:focus {
   <button onclick="location.href='estadisticas.html'" class="btn-azul oculto" id="btn-estadisticas">
   📊 Ver estadísticas
 </button>
+<button onclick="location.href='perfil.html'" id="btn-perfil" class="btn-perfil">👤 Mi Perfil</button>
 </button>
 
   </nav>
 </header>
+
+
 
 <div id="filtros" style="text-align: center; margin: 20px;">
 </div>
@@ -1243,8 +1321,16 @@ async function cargarProductos() {
     const inicio = (paginaActual - 1) * productosPorPagina;
     const fin = inicio + productosPorPagina;
     const productosPagina = productosFiltrados.slice(inicio, fin);
+    const valoracionesRes = await fetch("/valoraciones");
+const valoraciones = await valoracionesRes.json();
+
 
     productosPagina.forEach((p, i) => {
+      const valoracionesDelProducto = valoraciones.filter(v => v.productoId === p.id);
+const promedio = valoracionesDelProducto.length
+  ? (valoracionesDelProducto.reduce((acc, v) => acc + v.estrellas, 0) / valoracionesDelProducto.length).toFixed(1)
+  : "Sin valoraciones";
+
       const div = document.createElement("div");
       div.className = "producto";
       div.innerHTML = `
@@ -1261,6 +1347,15 @@ async function cargarProductos() {
           <button class="eliminar-producto">🗑️ Eliminar</button>
         ` : ""}
         <div class="form-edicion" style="display: none; margin-top: 10px;"></div>
+        
+        <button onclick="mostrarFormularioValoracion('${p.id}')">⭐ Valorar</button>
+<div id="formulario-valoracion-${p.id}" class="formulario-valoracion oculto">
+  <label>⭐ Tu calificación (1 a 5): <input type="number" min="1" max="5" id="estrellas-${p.id}"></label><br>
+  <textarea id="comentario-${p.id}" placeholder="Comentario"></textarea><br>
+  <button onclick="enviarValoracion('${p.id}')">Enviar valoración</button>
+</div>
+<div class="promedio-valoracion">⭐ Promedio: ${promedio}</div>
+
       `;
 
       div.querySelector(".agregar-carrito").addEventListener("click", () => {
@@ -1769,6 +1864,46 @@ document.getElementById("form-contacto").addEventListener("submit", async functi
       document.getElementById("btn-estadisticas").style.display = "none";
     }
   });
+</script>
+
+<script>
+function mostrarFormularioValoracion(id) {
+  document.getElementById(`formulario-valoracion-${id}`).classList.toggle("oculto");
+}
+
+async function enviarValoracion(id) {
+  const estrellas = parseInt(document.getElementById(`estrellas-${id}`).value);
+  const comentario = document.getElementById(`comentario-${id}`).value;
+  const usuario = localStorage.getItem("username") || "Anónimo";
+
+  if (!estrellas || estrellas < 1 || estrellas > 5) {
+    alert("Seleccioná una calificación válida.");
+    return;
+  }
+
+  const res = await fetch("/valorar", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ productoId: id, usuario, estrellas, comentario })
+  });
+
+  const data = await res.json();
+  alert(data.message);
+
+  document.getElementById(`formulario-valoracion-${id}`).classList.add("oculto");
+
+  // ✅ Volver a cargar productos para actualizar la puntuación en pantalla
+  if (typeof cargarProductos === "function") {
+    cargarProductos();
+  }
+}
+
+</script>
+<script>
+function mostrarFormularioValoracion(id) {
+  const formulario = document.getElementById(`formulario-valoracion-${id}`);
+  if (formulario) formulario.classList.toggle("oculto");
+}
 </script>
 
 </body>

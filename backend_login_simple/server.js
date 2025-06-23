@@ -90,21 +90,32 @@ app.delete('/usuarios/:username', (req, res) => {
   res.json({ success: true, message: 'Usuario eliminado correctamente.' });
 });
 
-app.put('/usuarios/:username', (req, res) => {
+app.put("/usuarios/:username", (req, res) => {
   const { username } = req.params;
-  const { password } = req.body;
-  if (!password)
-    return res.json({ success: false, message: 'Contraseña requerida.' });
+  const { password, nombre, email, direccion } = req.body;
 
-  let usuarios = fs.existsSync(USERS_FILE) ? JSON.parse(fs.readFileSync(USERS_FILE)) : [];
+  if (!req.session.loggedin || req.session.username !== username) {
+    return res.status(403).json({ success: false, message: "No autorizado." });
+  }
+
+  let usuarios = fs.existsSync(USERS_FILE)
+    ? JSON.parse(fs.readFileSync(USERS_FILE))
+    : [];
+
   const index = usuarios.findIndex(u => u.username === username);
-  if (index === -1)
-    return res.json({ success: false, message: 'Usuario no encontrado.' });
+  if (index === -1) {
+    return res.json({ success: false, message: "Usuario no encontrado." });
+  }
 
-  usuarios[index].password = password;
+  if (password) usuarios[index].password = password;
+  if (nombre) usuarios[index].nombre = nombre;
+  if (email) usuarios[index].email = email;
+  if (direccion) usuarios[index].direccion = direccion;
+
   fs.writeFileSync(USERS_FILE, JSON.stringify(usuarios, null, 2));
-  res.json({ success: true, message: 'Contraseña actualizada.' });
+  res.json({ success: true, message: "Perfil actualizado correctamente." });
 });
+
 
 // ====================== PRODUCTOS ======================
 
@@ -451,4 +462,44 @@ app.put('/pedidos/:index/estado', (req, res) => {
   fs.writeFileSync(PEDIDOS_FILE, JSON.stringify(pedidos, null, 2));
 
   res.json({ success: true, message: "Estado actualizado." });
+});
+
+app.get('/mi-historial', (req, res) => {
+  if (!req.session.loggedin) {
+    return res.status(401).json({ success: false, message: "No has iniciado sesión." });
+  }
+
+  const username = req.session.username;
+  const pedidos = fs.existsSync(PEDIDOS_FILE)
+    ? JSON.parse(fs.readFileSync(PEDIDOS_FILE))
+    : [];
+
+  const pedidosDelUsuario = pedidos.filter(p => p.usuario === username);
+  res.json(pedidosDelUsuario);
+});
+
+const VALORACIONES_FILE = path.join(__dirname, 'valoraciones.json');
+
+app.post('/valorar', (req, res) => {
+  const { productoId, usuario, estrellas, comentario } = req.body;
+
+  if (!productoId || !usuario || !estrellas) {
+    return res.status(400).json({ success: false, message: "Datos incompletos." });
+  }
+
+  const valoraciones = fs.existsSync(VALORACIONES_FILE)
+    ? JSON.parse(fs.readFileSync(VALORACIONES_FILE))
+    : [];
+
+  valoraciones.push({ productoId, usuario, estrellas, comentario, fecha: new Date() });
+
+  fs.writeFileSync(VALORACIONES_FILE, JSON.stringify(valoraciones, null, 2));
+  res.json({ success: true, message: "Valoración guardada con éxito." });
+});
+
+app.get('/valoraciones', (req, res) => {
+  const valoraciones = fs.existsSync(VALORACIONES_FILE)
+    ? JSON.parse(fs.readFileSync(VALORACIONES_FILE))
+    : [];
+  res.json(valoraciones);
 });

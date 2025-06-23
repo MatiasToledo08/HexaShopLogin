@@ -1,0 +1,128 @@
+[
+  {
+    "productoId": "prod-1",
+    "usuario": "admin",
+    "estrellas": 5,
+    "comentario": "Si",
+    "fecha": "2025-06-22T18:33:46.431Z"
+  },
+  {
+    "productoId": "prod-2",
+    "usuario": "admin",
+    "estrellas": 5,
+    "comentario": "Tremendas",
+    "fecha": "2025-06-22T18:35:12.734Z"
+  },
+  {
+    "productoId": "prod-2",
+    "usuario": "admin",
+    "estrellas": 1,
+    "comentario": "Pesimo",
+    "fecha": "2025-06-22T18:36:13.573Z"
+  },
+  {
+    "productoId": "undefined",
+    "usuario": "admin",
+    "estrellas": 5,
+    "comentario": "Un espectaculo",
+    "fecha": "2025-06-22T19:50:37.344Z"
+  },
+  {
+    "productoId": "undefined",
+    "usuario": "admin",
+    "estrellas": 5,
+    "comentario": "Bien",
+    "fecha": "2025-06-22T19:51:46.752Z"
+  },
+  {
+    "productoId": "prod-5",
+    "usuario": "admin",
+    "estrellas": 4,
+    "comentario": "Banco un monton",
+    "fecha": "2025-06-22T19:53:26.858Z"
+  },
+  {
+    "productoId": "prod-1",
+    "usuario": "admin",
+    "estrellas": 5,
+    "comentario": "perfectas!",
+    "fecha": "2025-06-22T19:57:19.504Z"
+  },
+  {
+    "productoId": "undefined",
+    "usuario": "admin",
+    "estrellas": 4,
+    "comentario": "Casi perfectas",
+    "fecha": "2025-06-22T22:34:49.433Z"
+  },
+  {
+    "productoId": "undefined",
+    "usuario": "admin",
+    "estrellas": 4,
+    "comentario": "casi perfectas",
+    "fecha": "2025-06-22T22:35:36.648Z"
+  },
+  {
+    "productoId": "prod-1",
+    "usuario": "admin",
+    "estrellas": 1,
+    "comentario": "no",
+    "fecha": "2025-06-22T22:37:03.097Z"
+  },
+  {
+    "productoId": "prod-1",
+    "usuario": "admin",
+    "estrellas": 5,
+    "comentario": "claro",
+    "fecha": "2025-06-22T22:37:18.506Z"
+  },
+  {
+    "productoId": "prod-4",
+    "usuario": "admin",
+    "estrellas": 5,
+    "comentario": "impecable",
+    "fecha": "2025-06-22T22:37:41.865Z"
+  },
+  {
+    "productoId": "prod-7",
+    "usuario": "admin",
+    "estrellas": 4,
+    "comentario": "lo recomiendo",
+    "fecha": "2025-06-22T22:39:03.426Z"
+  },
+  {
+    "productoId": "prod-8",
+    "usuario": "admin",
+    "estrellas": 3,
+    "comentario": "bien, hasta ahi",
+    "fecha": "2025-06-22T22:41:07.121Z"
+  },
+  {
+    "productoId": "prod-9",
+    "usuario": "admin",
+    "estrellas": 3,
+    "comentario": "amazing bro",
+    "fecha": "2025-06-22T22:46:07.658Z"
+  },
+  {
+    "productoId": "prod-10",
+    "usuario": "matias",
+    "estrellas": 5,
+    "comentario": "simplemente perfectas",
+    "fecha": "2025-06-22T22:47:00.786Z"
+  },
+  {
+    "productoId": "prod-11",
+    "usuario": "matias",
+    "estrellas": 3,
+    "comentario": "podrias hacerlos con mas dulce de leche",
+    "fecha": "2025-06-22T22:48:08.579Z"
+  },
+  {
+    "productoId": "b0b7099e-85cf-408a-af93-9572689d73a7",
+    "usuario": "matias",
+    "estrellas": 5,
+    "comentario": "esta bien esponjoso como me gusta",
+    "fecha": "2025-06-22T22:48:39.014Z"
+  }
+]

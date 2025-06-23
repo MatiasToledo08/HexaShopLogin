@@ -285,7 +285,7 @@ function confirmarCompra() {
       if (data.success) {
         alert("✅ Pedido confirmado.");
         localStorage.removeItem("carrito");
-        window.location.href = "pedidos.html";
+        
       } else {
         alert("❌ " + data.message);
       }

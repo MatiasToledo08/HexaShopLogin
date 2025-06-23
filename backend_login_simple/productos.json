@@ -16,13 +16,6 @@
     "categoria": "Pastas"
   },
   {
-    "nombre": "Tortellini",
-    "descripcion": "El tortellini es una variedad de pasta típica de Italia, originaria de la región de Emilia-Romaña, especialmente asociada con las ciudades de Bolonia y Módena. Se caracteriza por su forma distintiva de anillo, que se logra al doblar una pequeña porción de masa enrollada y unida por sus extremos, creando así un pequeño ",
-    "precio": "3000",
-    "imagen": "https://i0.wp.com/www.mostlybalanced.com/wp-content/uploads/2017/05/Tortellini-pasta-with-tomatoes-wood.jpg?fit=2446,2446&ssl=1",
-    "categoria": "Pastas"
-  },
-  {
     "id": "prod-4",
     "nombre": "Jugo de Naranja",
     "descripcion": "El jugo de naranja, o zumo de naranja, es una bebida refrescante y nutritiva que se obtiene al exprimir naranjas (Citrus × sinensis) mediante un exprimidor. Este elixir es muy popular en todo el mundo, especialmente en desayunos, gracias a su sabor dulce y ácido, así como a sus múltiples beneficios para la salud.",
